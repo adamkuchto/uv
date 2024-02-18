@@ -13,11 +13,12 @@ running heating(int time, int power)
 	int now = globalTime + timeValues[time];
 
 	while (now > globalTime) {
-		if(HAL_GPIO_ReadPin(StopButton_GPIO_Port, StopButton_Pin) == GPIO_PIN_RESET) {
-			return STOP;
-		}
+		char buffor[16];
+		sprintf(buffor,"%lis  ",	(now - globalTime));
+		pcf8574_cursor(1, 9);
+		pcf8574_send_string(buffor);
 		// Włączenie diod UV.
 	}
 
-	return OK;
+	return DONE;
 }

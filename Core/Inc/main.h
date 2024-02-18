@@ -90,16 +90,30 @@ typedef enum {
 	WORKING,
 	STOP,
 	GLOBAL_ERROR,
-	OK,
+	DONE,
 	DOOR_OPEN
 } running;
+
+typedef enum {
+	CLOSE,
+	OPEN
+}doorStatus;
+
+typedef enum {
+	TIME_BUTTON,
+	POWER_BUTTON,
+	START_BUTTON,
+	STOP_BUTTON,
+	NONE
+}buttonPressed;
 
 typedef struct {
 	int time;
 	int power;
 	running status;
-	bool door;
+	doorStatus door;
 } settings;
+
 
 extern uint32_t globalTime;
 /* USER CODE END Private defines */

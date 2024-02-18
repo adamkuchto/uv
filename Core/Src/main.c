@@ -66,20 +66,25 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 	static uint32_t buttonState = 0;
 	if (!buttonState) buttonState = HAL_GetTick();
 	uint32_t now = HAL_GetTick();
+	static buttonPressed actualButton = NONE;
 
 	if(now - buttonState > DEBOUNCE) {
-		if (GPIO_Pin == TimeButton_Pin){
+		if (GPIO_Pin == TimeButton_Pin) {
 			setHeatingTime();
 			buttonState = now;
+			actualButton = TIME_BUTTON;
 		} else if (GPIO_Pin == PowerButton_Pin) {
 			setHeatingPower();
 			buttonState = now;
-		} else if (GPIO_Pin == StartButton_Pin) {
+			actualButton = POWER_BUTTON;
+		} else if ((GPIO_Pin == StartButton_Pin) && (actualButton != START_BUTTON)) {
 			startHeating();
 			buttonState = now;
-		} else if (GPIO_Pin == StopButton_Pin) {
+			actualButton = START_BUTTON;
+		} else if ((GPIO_Pin == StopButton_Pin) && (actualButton != STOP_BUTTON)) {
 			stopHeating();
 			buttonState = now;
+			actualButton = STOP_BUTTON;
 		} else __NOP();
 		displayStatus();
 	}

@@ -79,9 +79,9 @@ void startHeating()
 		uart_buf_len = sprintf(uart_buf, "%s s\r\n", "start");
 		HAL_USART_Transmit(&husart1, (uint8_t *)uart_buf, uart_buf_len, 100);
 
-		if (heating(settingsValue.time, settingsValue.power) == GLOBAL_ERROR)
-			settingsValue.status = GLOBAL_ERROR;
-		else {
+		settingsValue.status = heating(settingsValue.time, settingsValue.power);
+
+		if (settingsValue.status == DONE) {
 			pcf8574_cursor(0, 0);
 			pcf8574_send_string("    SUCCESS    ");
 		}
@@ -97,10 +97,10 @@ void startHeating()
 void checkDoor()
 {
 	if (HAL_GPIO_ReadPin(DoorButton_GPIO_Port, DoorButton_Pin) == GPIO_PIN_SET) {
-		settingsValue.door = true;
+		settingsValue.door = OPEN;
 		settingsValue.status = DOOR_OPEN;
 	} else {
-		settingsValue.door = false;
+		settingsValue.door = CLOSE;
 	}
 }
 
