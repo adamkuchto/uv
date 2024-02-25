@@ -61,6 +61,9 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define DisplayBrightness_Pin GPIO_PIN_0
 #define DisplayBrightness_GPIO_Port GPIOA
+#define StopButton_Pin GPIO_PIN_10
+#define StopButton_GPIO_Port GPIOB
+#define StopButton_EXTI_IRQn EXTI15_10_IRQn
 #define LedInfoBlue_Pin GPIO_PIN_12
 #define LedInfoBlue_GPIO_Port GPIOB
 #define LedInfoRed_Pin GPIO_PIN_13
@@ -69,6 +72,7 @@ void Error_Handler(void);
 #define LedInfoGreen_GPIO_Port GPIOB
 #define DoorButton_Pin GPIO_PIN_15
 #define DoorButton_GPIO_Port GPIOB
+#define DoorButton_EXTI_IRQn EXTI15_10_IRQn
 #define TimeButton_Pin GPIO_PIN_6
 #define TimeButton_GPIO_Port GPIOC
 #define TimeButton_EXTI_IRQn EXTI9_5_IRQn
@@ -78,13 +82,13 @@ void Error_Handler(void);
 #define StartButton_Pin GPIO_PIN_8
 #define StartButton_GPIO_Port GPIOC
 #define StartButton_EXTI_IRQn EXTI9_5_IRQn
-#define StopButton_Pin GPIO_PIN_9
-#define StopButton_GPIO_Port GPIOC
-#define StopButton_EXTI_IRQn EXTI9_5_IRQn
 #define Buzzer_Pin GPIO_PIN_4
 #define Buzzer_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+
+#define DEBOUNCE 350
+
 typedef enum {
 	IDLE,
 	WORKING,
@@ -98,14 +102,6 @@ typedef enum {
 	CLOSE,
 	OPEN
 }doorStatus;
-
-typedef enum {
-	TIME_BUTTON,
-	POWER_BUTTON,
-	START_BUTTON,
-	STOP_BUTTON,
-	NONE
-}buttonPressed;
 
 typedef struct {
 	int time;

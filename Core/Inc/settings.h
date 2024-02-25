@@ -2,6 +2,7 @@
 #ifndef INC_SETTINGS_H_
 #define INC_SETTINGS_H_
 
+#include "main.h"
 
 /*
  * Ustawia czas grzania.
@@ -16,7 +17,7 @@ void setHeatingPower();
 /*
  * Wyłącza grzanie.
  */
-void stopHeating();
+running checkStopButton();
 
 /*
  * Włącza grzanie.
@@ -26,7 +27,7 @@ void startHeating();
 /*
  * Sprawdzenie zamknięcia drzwi.
  */
-void checkDoor();
+doorStatus checkDoor();
 
 /*
  * Wyświetla aktuale ustawienia.
@@ -47,5 +48,10 @@ void idle();
  * Odmierza czas zwiększając zmienną globalną co sekundę o 1.
  */
 void setGlobalTime();
+
+/*
+ * Restartuje globalny czas.
+ */
+void restart();
 
 #endif /* INC_SETTINGS_H_ */

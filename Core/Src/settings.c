@@ -46,13 +46,12 @@ void setHeatingPower()
 	HAL_USART_Transmit(&husart1, (uint8_t *)uart_buf, uart_buf_len, 100);
 }
 
-void stopHeating()
+void restart()
 {
-	if (settingsValue.status != WORKING) return;
+	if (settingsValue.status != DONE) return;
 
 	settingsValue.status = STOP;
 	stopLedInfo();
-	ring();
 
 	pcf8574_cursor(0, 0);
 	pcf8574_send_string("      STOP     ");
@@ -66,12 +65,10 @@ void stopHeating()
 void startHeating()
 {
 
-	checkDoor();
+	if((checkDoor() == CLOSE) && (settingsValue.status != DONE)) {
 
-	if((settingsValue.door == false) && (settingsValue.status != WORKING)) {
 		settingsValue.status = WORKING;
 		startLedInfo();
-		ring();
 
 		pcf8574_cursor(0, 0);
 		pcf8574_send_string("  IN PROGRESS   ");
@@ -81,20 +78,33 @@ void startHeating()
 
 		settingsValue.status = heating(settingsValue.time, settingsValue.power);
 
+
 		if (settingsValue.status == DONE) {
 			pcf8574_cursor(0, 0);
 			pcf8574_send_string("    SUCCESS    ");
 		}
 
-	} else if (settingsValue.door == true) {
+		if (settingsValue.status == STOP) {
+			stopLedInfo();
+			pcf8574_cursor(0, 0);
+			pcf8574_send_string("      STOP     ");
+		}
+
+		if (settingsValue.door == OPEN) {
+			pcf8574_cursor(0, 0);
+			pcf8574_send_string("  DOOR IS OPEN  ");
+		}
+
+	} else if (settingsValue.door == OPEN) {
 		pcf8574_cursor(0, 0);
 		pcf8574_send_string("  DOOR IS OPEN  ");
+
 	} else
 		__NOP();
 
 }
 
-void checkDoor()
+doorStatus checkDoor()
 {
 	if (HAL_GPIO_ReadPin(DoorButton_GPIO_Port, DoorButton_Pin) == GPIO_PIN_SET) {
 		settingsValue.door = OPEN;
@@ -102,6 +112,16 @@ void checkDoor()
 	} else {
 		settingsValue.door = CLOSE;
 	}
+
+	return settingsValue.door;
+}
+
+running checkStopButton()
+{
+	if (HAL_GPIO_ReadPin(StopButton_GPIO_Port, StopButton_Pin) == GPIO_PIN_RESET)
+		settingsValue.status = STOP;
+
+	return settingsValue.status;
 }
 
 void displayStatus()
@@ -117,7 +137,6 @@ void idle()
 {
 	idleLedInfo();
 	settingsValue.status = IDLE;
-
 }
 
 void welcome()

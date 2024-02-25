@@ -41,7 +41,6 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define DEBOUNCE 350
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -52,6 +51,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+extern settings settingsValue;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,25 +65,20 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	static uint32_t buttonState = 0;
 	uint32_t now = HAL_GetTick();
-	static buttonPressed actualButton = NONE;
 
 	if(now - buttonState > DEBOUNCE) {
 		if (GPIO_Pin == TimeButton_Pin) {
 			setHeatingTime();
 			buttonState = now;
-			actualButton = TIME_BUTTON;
 		} else if (GPIO_Pin == PowerButton_Pin) {
 			setHeatingPower();
 			buttonState = now;
-			actualButton = POWER_BUTTON;
 		} else if (GPIO_Pin == StartButton_Pin) {
 			startHeating();
 			buttonState = now;
-			actualButton = START_BUTTON;
-		} else if ((GPIO_Pin == StopButton_Pin) && (actualButton != STOP_BUTTON)) {
-			stopHeating();
+		} else if (GPIO_Pin == StopButton_Pin) {
+			restart();
 			buttonState = now;
-			actualButton = STOP_BUTTON;
 		} else __NOP();
 		displayStatus();
 	}
@@ -197,7 +192,8 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	setGlobalTime();
+	if (settingsValue.status == WORKING)
+		setGlobalTime();
 }
 /* USER CODE END 4 */
 
