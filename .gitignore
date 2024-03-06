@@ -1,0 +1,12 @@
+/.cproject
+/.mxproject
+/.project
+/.settings/
+/Debug/
+/Drivers/
+/FATFS/
+/Middlewares/
+/Piekarnik Debug.launch
+/Piekarnik.ioc
+/STM32F103RBTX_FLASH.ld
+
