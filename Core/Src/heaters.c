@@ -18,6 +18,13 @@ running heating(int time, short power)
 				if(checkStopButton() == STOP) return STOP;
 			}
 
+			/*TODO
+			 * Maksymalny czas w trybie dokładania nie dłuższy niż 5min.
+			 * Odliczanie sekund w górę.
+			 * Ustawienia startowe:
+			 * 	- Tryb dokładania.
+			 * 	- Pełna moc.
+			 */
 			pcf8574_cursor(1, 9);
 			pcf8574_send_string("inf");
 			uvLedsOn(power);
