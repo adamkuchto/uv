@@ -6,24 +6,39 @@
 
 running heating(int time, short power)
 {
-	if ((time < 0) || (time > 4)) return GLOBAL_ERROR;
+	char buffor[16];
+
+	if ((time < 0) || (time > 5)) return GLOBAL_ERROR;
 	if ((power < 0) || (power > 3)) return GLOBAL_ERROR;
 
-	int timeValues[] = {3, 60, 90, 120, 180};
-	globalTime = 0;
-	int now = globalTime + timeValues[time];
+	if (time == 5) {
+		while (checkStopButton() != STOP) {
+			while (checkDoor() == OPEN) {
+				uvLedsOff();
+				if(checkStopButton() == STOP) return STOP;
+			}
 
-	while (now >= globalTime) {
-		if(checkDoor() == OPEN) return DOOR_OPEN;
-		if(checkStopButton() == STOP) return STOP;
+			pcf8574_cursor(1, 9);
+			pcf8574_send_string("inf");
+			uvLedsOn(power);
+		}
+		return STOP;
+	} else {
+		int timeValues[] = {3, 60, 90, 120, 180};
+		globalTime = 0;
+		int now = globalTime + timeValues[time];
 
-		char buffor[16];
-		sprintf(buffor,"%lis  ",	(now - globalTime));
-		pcf8574_cursor(1, 9);
-		pcf8574_send_string(buffor);
-		// Włączenie diod UV.
-		uvLedsOn(power);
+		while (now >= globalTime) {
+			if(checkDoor() == OPEN) return DOOR_OPEN;
+			if(checkStopButton() == STOP) return STOP;
+
+			sprintf(buffor,"%lis  ", (now - globalTime));
+			pcf8574_cursor(1, 9);
+			pcf8574_send_string(buffor);
+			uvLedsOn(power);
+		}
 	}
+
 
 	return DONE;
 }

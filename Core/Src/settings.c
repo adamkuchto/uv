@@ -10,7 +10,7 @@
 settings settingsValue;
 uint32_t globalTime = 0;
 
-int timeOfHeating[] = {30, 60, 90, 120, 180};
+int timeOfHeating[] = {30, 60, 90, 120, 180, 0};
 char uart_buf[50];
 int uart_buf_len;
 
@@ -21,7 +21,7 @@ void setHeatingTime()
 	idle();
 
 	settingsValue.time++;
-	if (settingsValue.time > 4) settingsValue.time = 0;
+	if (settingsValue.time > 5) settingsValue.time = 0;
 
 	pcf8574_cursor(0, 0);
 	pcf8574_send_string("    Set Time    ");
