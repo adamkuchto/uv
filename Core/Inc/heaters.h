@@ -10,6 +10,6 @@
  * TODO Przycisk wyboru ile diod ma świecić.
  * @return true w przypadku powodzenia.
  */
-running heating(int time, int power);
+running heating(int time, short power);
 
 #endif /* INC_HEATERS_H_ */

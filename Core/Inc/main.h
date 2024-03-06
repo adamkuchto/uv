@@ -59,6 +59,12 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define UvPanel1_Pin GPIO_PIN_0
+#define UvPanel1_GPIO_Port GPIOC
+#define UvPanel2_Pin GPIO_PIN_1
+#define UvPanel2_GPIO_Port GPIOC
+#define UvPanel3_Pin GPIO_PIN_2
+#define UvPanel3_GPIO_Port GPIOC
 #define DisplayBrightness_Pin GPIO_PIN_0
 #define DisplayBrightness_GPIO_Port GPIOA
 #define StopButton_Pin GPIO_PIN_10

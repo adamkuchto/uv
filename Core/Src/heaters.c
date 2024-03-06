@@ -2,8 +2,9 @@
 #include "heaters.h"
 #include "settings.h"
 #include "tim.h"
+#include "leds.h"
 
-running heating(int time, int power)
+running heating(int time, short power)
 {
 	if ((time < 0) || (time > 4)) return GLOBAL_ERROR;
 	if ((power < 0) || (power > 3)) return GLOBAL_ERROR;
@@ -21,6 +22,7 @@ running heating(int time, int power)
 		pcf8574_cursor(1, 9);
 		pcf8574_send_string(buffor);
 		// Włączenie diod UV.
+		uvLedsOn(power);
 	}
 
 	return DONE;

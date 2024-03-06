@@ -36,6 +36,7 @@ void setHeatingPower()
 	if(settingsValue.status == WORKING) return;
 	idle();
 
+
 	pcf8574_cursor(0, 0);
 	pcf8574_send_string("    Set Power   ");
 
@@ -51,12 +52,10 @@ void restart()
 	if (settingsValue.status != DONE) return;
 
 	settingsValue.status = STOP;
-	stopLedInfo();
+	idleLedInfo();
 
 	pcf8574_cursor(0, 0);
 	pcf8574_send_string("      STOP     ");
-
-	idle();
 
 	uart_buf_len = sprintf(uart_buf, "%s s\r\n", "stop");
 	HAL_USART_Transmit(&husart1, (uint8_t *)uart_buf, uart_buf_len, 100);
@@ -80,17 +79,22 @@ void startHeating()
 
 
 		if (settingsValue.status == DONE) {
+			uvLedsOff();
+			stopLedInfo();
 			pcf8574_cursor(0, 0);
 			pcf8574_send_string("    SUCCESS    ");
 		}
 
 		if (settingsValue.status == STOP) {
-			stopLedInfo();
+			uvLedsOff();
+			idleLedInfo();
 			pcf8574_cursor(0, 0);
 			pcf8574_send_string("      STOP     ");
 		}
 
 		if (settingsValue.door == OPEN) {
+			uvLedsOff();
+			idleLedInfo();
 			pcf8574_cursor(0, 0);
 			pcf8574_send_string("  DOOR IS OPEN  ");
 		}

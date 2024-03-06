@@ -23,5 +23,15 @@ void stopLedInfo();
  */
 void idleLedInfo();
 
+/*
+ * Włącza diody uv.
+ * @param[in] mode - Ile diod ma być włączonych.
+ */
+void uvLedsOn(short mode);
+
+/*
+ * Wyłącza diody uv.
+ */
+void uvLedsOff();
 
 #endif /* INC_LEDS_H_ */
