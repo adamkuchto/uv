@@ -18,7 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "fatfs.h"
+#include "dma.h"
 #include "i2c.h"
 #include "rtc.h"
 #include "spi.h"
@@ -70,9 +70,6 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 		if (GPIO_Pin == TimeButton_Pin) {
 			setHeatingTime();
 			buttonState = now;
-		} else if (GPIO_Pin == PowerButton_Pin) {
-			setHeatingPower();
-			buttonState = now;
 		} else if (GPIO_Pin == StartButton_Pin) {
 			startHeating();
 			buttonState = now;
@@ -113,14 +110,15 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_RTC_Init();
-  MX_SPI1_Init();
   MX_TIM2_Init();
   MX_USART1_Init();
-  MX_FATFS_Init();
   MX_I2C1_Init();
   MX_TIM3_Init();
   MX_TIM1_Init();
+  MX_SPI1_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   // Start timer
   HAL_TIM_Base_Start_IT(&htim1);
@@ -128,8 +126,10 @@ int main(void)
   HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
   pcf8574_init();
   pcf8574_send_cmd(0x0c); // disp=on , cur=on, blink=off
-  welcome();
+//  welcome();
+  settingsValue.power = 2;
   idle();
+  displayStatus();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -156,10 +156,9 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE|RCC_OSCILLATORTYPE_LSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
-  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
@@ -183,7 +182,7 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-  PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+  PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_HSE_DIV128;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();

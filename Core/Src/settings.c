@@ -10,7 +10,7 @@
 settings settingsValue;
 uint32_t globalTime = 0;
 
-int timeOfHeating[] = {30, 60, 90, 120, 180, 0};
+int timeOfHeating[] = {300, 180, 90, 60, 30, 0};
 char uart_buf[50];
 int uart_buf_len;
 
@@ -117,7 +117,8 @@ doorStatus checkDoor()
 		settingsValue.door = CLOSE;
 	}
 
-	return settingsValue.door;
+//	return settingsValue.door;
+	return CLOSE; // @@@ test czujnika uv
 }
 
 running checkStopButton()

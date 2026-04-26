@@ -33,12 +33,12 @@ void uvLedsOn(short mode) {
 		break;
 	case 1:
 		HAL_GPIO_WritePin(UvPanel1_GPIO_Port, UvPanel1_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(UvPanel2_GPIO_Port, UvPanel2_Pin, GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(UvPanel2_GPIO_Port, UvPanel2_Pin, GPIO_PIN_SET);
 		break;
 	case 2:
 		HAL_GPIO_WritePin(UvPanel1_GPIO_Port, UvPanel1_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(UvPanel2_GPIO_Port, UvPanel2_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(UvPanel3_GPIO_Port, UvPanel3_Pin, GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(UvPanel2_GPIO_Port, UvPanel2_Pin, GPIO_PIN_SET);
+//		HAL_GPIO_WritePin(UvPanel3_GPIO_Port, UvPanel3_Pin, GPIO_PIN_SET);
 		break;
 	default:
 		__NOP();
@@ -51,6 +51,6 @@ void uvLedsOn(short mode) {
  */
 void uvLedsOff() {
 	HAL_GPIO_WritePin(UvPanel1_GPIO_Port, UvPanel1_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(UvPanel2_GPIO_Port, UvPanel2_Pin, GPIO_PIN_RESET);
-	HAL_GPIO_WritePin(UvPanel3_GPIO_Port, UvPanel3_Pin, GPIO_PIN_RESET);
+//	HAL_GPIO_WritePin(UvPanel2_GPIO_Port, UvPanel2_Pin, GPIO_PIN_RESET);
+//	HAL_GPIO_WritePin(UvPanel3_GPIO_Port, UvPanel3_Pin, GPIO_PIN_RESET);
 }

@@ -61,12 +61,12 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define UvPanel1_Pin GPIO_PIN_0
 #define UvPanel1_GPIO_Port GPIOC
-#define UvPanel2_Pin GPIO_PIN_1
-#define UvPanel2_GPIO_Port GPIOC
-#define UvPanel3_Pin GPIO_PIN_2
-#define UvPanel3_GPIO_Port GPIOC
 #define DisplayBrightness_Pin GPIO_PIN_0
 #define DisplayBrightness_GPIO_Port GPIOA
+#define ESP_TX_Pin GPIO_PIN_2
+#define ESP_TX_GPIO_Port GPIOA
+#define ESP_RX_Pin GPIO_PIN_3
+#define ESP_RX_GPIO_Port GPIOA
 #define StopButton_Pin GPIO_PIN_10
 #define StopButton_GPIO_Port GPIOB
 #define StopButton_EXTI_IRQn EXTI15_10_IRQn
@@ -82,9 +82,6 @@ void Error_Handler(void);
 #define TimeButton_Pin GPIO_PIN_6
 #define TimeButton_GPIO_Port GPIOC
 #define TimeButton_EXTI_IRQn EXTI9_5_IRQn
-#define PowerButton_Pin GPIO_PIN_7
-#define PowerButton_GPIO_Port GPIOC
-#define PowerButton_EXTI_IRQn EXTI9_5_IRQn
 #define StartButton_Pin GPIO_PIN_8
 #define StartButton_GPIO_Port GPIOC
 #define StartButton_EXTI_IRQn EXTI9_5_IRQn

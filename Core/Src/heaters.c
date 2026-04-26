@@ -21,9 +21,6 @@ running heating(int time, short power)
 			/*TODO
 			 * Maksymalny czas w trybie dokładania nie dłuższy niż 5min.
 			 * Odliczanie sekund w górę.
-			 * Ustawienia startowe:
-			 * 	- Tryb dokładania.
-			 * 	- Pełna moc.
 			 */
 			pcf8574_cursor(1, 9);
 			pcf8574_send_string("inf");
@@ -31,7 +28,7 @@ running heating(int time, short power)
 		}
 		return STOP;
 	} else {
-		int timeValues[] = {3, 60, 90, 120, 180};
+		int timeValues[] = {300, 180, 90, 60, 30};
 		globalTime = 0;
 		int now = globalTime + timeValues[time];
 
