@@ -22,7 +22,11 @@ typedef enum
 /**
  * @brief Inicjalizuje połączenie SD przez SPI.
  *
+<<<<<<< HEAD
  * @param[in][out] mainLine Magistrala SPI.
+=======
+ * @param mainLine Magistrala SPI.
+>>>>>>> 0dfbc0fedfbfd9598b02af8ff2dd75c752c945ac
  * @return SD_STAT ENUM informacja o przebiegu połączenia.
  */
 SD_STAT initSdCard(SPIClass &mainLine);
