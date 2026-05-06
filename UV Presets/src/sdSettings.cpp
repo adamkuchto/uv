@@ -1,4 +1,5 @@
 #include "sdSettings.h"
+#include "jsonParser.h"
 
 SD_STAT initSdCard(SPIClass &mainLine)
 {
@@ -17,7 +18,7 @@ SD_STAT initSdCard(SPIClass &mainLine)
     return SD_INIT;
 }
 
-SD_STAT readFile()
+SD_STAT readFile(Settings &params)
 {
     File fileSettings = SD.open(JSON_FILE);
 
@@ -25,7 +26,7 @@ SD_STAT readFile()
     {
         while (fileSettings.available())
         {
-            Serial.write(fileSettings.read());
+            loadConfig(fileSettings, params);
         }
         fileSettings.close();
     }

@@ -19,6 +19,13 @@ typedef enum
     SD_FILE_OK = 4
 } SD_STAT;
 
+typedef struct
+{
+    int time;
+    int power;
+    bool safe;
+} Settings;
+
 /**
  * @brief Inicjalizuje połączenie SD przez SPI.
  *
@@ -30,9 +37,10 @@ SD_STAT initSdCard(SPIClass &mainLine);
 /**
  * @brief Czyta plik z ustawieniami.
  *
+ * @param[out] params Struktura parametry pracy.
  * @return SD_STAT ENUM informacja o przebiegu odczytu pliku.
  */
-SD_STAT readFile();
+SD_STAT readFile(Settings &params);
 
 /**
  * @brief Wyświetla komunikaty odnośnie dzałań na karcie SD.
